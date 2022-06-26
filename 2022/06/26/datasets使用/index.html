@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>datasets库使用 | be_humble的个人空间</title>
+  <meta name="author" content="张晓松">
+  
+  <meta name="description" content="个人博客，随笔，个人简介">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="datasets库使用"/>
+  <meta property="og:site_name" content="be_humble的个人空间"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="alternate" href="/atom.xml" title="be_humble的个人空间" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <header id="header"><div class= "header-content inner">
+	<div class = "alignleft col-one">
+		
+			<div class='avatar'>
+				<img src = "/img/default/head.jpg">
+              </div>
+		
+		<div class="header-div">
+		    <h1><a href="/">be_humble的个人空间</a></h1>
+		    <h2><a href="/">张晓松的博客</a></h2>
+		</div>
+	</div>
+	<div class = "alignright col-two">
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class= "header-nav">
+	<div class='header-nav-content inner'>
+		<div id="main-nav" class="alignleft">
+		    		
+		    		  <a href="/"><i class="fa fa-home"></i>首页</a>
+		    		
+		    		  <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+		    		
+		    		  <a href="/picture"><i class="fa fa-book"></i>照片墙</a>
+		    		
+		</div>
+		<div id="sub-nav" class="alignright">
+		    
+		      <a href="/customization"><i class="fa fa-question-circle"></i>留言</a>
+		    
+		      <a href="/resume"><i class="fa fa-user"></i>关于我</a>
+		    
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</header>
+    <div id="content" class="inner">
+      <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+        <div class="icon"></div>
+        
+        <time datetime="2022-06-26T08:20:00.000Z"><a href="/2022/06/26/datasets使用/">2022-06-26</a></time>
+        
+  
+    <h1 class="title">datasets库使用</h1>
+  
+
+    </header>
+
+    <div class="entry">
+      
+        
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#load-dataset"><span class="toc-text">load_dataset</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Local-and-remote-files"><span class="toc-text">Local and remote files</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#load-dataset-builder"><span class="toc-text">load_dataset_builder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get-dataset-config-names"><span class="toc-text">get_dataset_config_names</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dataset"><span class="toc-text">Dataset</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#load-memory%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="toc-text">load memory中数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="toc-text">处理数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AEcolumns%E5%A4%84%E7%90%86"><span class="toc-text">数据columns处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Map"><span class="toc-text">Map</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">连接数据集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#save"><span class="toc-text">save</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#list-metrics"><span class="toc-text">list_metrics</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#load-metric"><span class="toc-text">load_metric</span></a></li></ol>
+    </div>
+
+        <p>Huggingface的datasets类，保护一些场景数据集和metric</p>
+<span id="more"></span>
+
+<h4 id="load-dataset"><a href="#load-dataset" class="headerlink" title="load_dataset"></a>load_dataset</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset</span><br><span class="line"></span><br><span class="line">data=load_dataset(<span class="string">&#x27;dataset_name&#x27;</span>,<span class="string">&#x27;sub_name&#x27;</span>,split=<span class="string">&#x27;train..&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>得到Dataset类的实例</p>
+<p>num_rows查看行数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataset[&#x27;train&#x27;].num_rows</span><br><span class="line">#3668</span><br></pre></td></tr></table></figure>
+
+<p>下面包括features类和数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="string">&#x27;train&#x27;</span>].features</span><br><span class="line"><span class="comment">#&#123;&#x27;idx&#x27;: Value(dtype=&#x27;int32&#x27;, id=None),</span></span><br><span class="line"><span class="comment"># &#x27;label&#x27;: ClassLabel(num_classes=2, names=[&#x27;not_equivalent&#x27;, #&#x27;equivalent&#x27;], id=None),</span></span><br><span class="line"><span class="comment"># &#x27;sentence1&#x27;: Value(dtype=&#x27;string&#x27;, id=None),</span></span><br><span class="line"><span class="comment"># &#x27;sentence2&#x27;: Value(dtype=&#x27;string&#x27;, id=None)&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看数据类型</span></span><br><span class="line">dataset[<span class="string">&#x27;train&#x27;</span>].features[<span class="string">&#x27;idx&#x27;</span>]</span><br><span class="line"><span class="comment">#Value(dtype=&#x27;int32&#x27;, id=None)</span></span><br><span class="line"></span><br><span class="line">dataset[<span class="string">&#x27;train&#x27;</span>].features[<span class="string">&#x27;label&#x27;</span>]</span><br><span class="line"><span class="comment">#ClassLabel(num_classes=2, names=[&#x27;not_equivalent&#x27;, &#x27;equivalent&#x27;], id=None)</span></span><br><span class="line"></span><br><span class="line">dataset[<span class="string">&#x27;train&#x27;</span>].features[<span class="string">&#x27;sentence1&#x27;</span>]</span><br><span class="line"><span class="comment">#Value(dtype=&#x27;string&#x27;, id=None)</span></span><br><span class="line"></span><br><span class="line">dataset[<span class="string">&#x27;train&#x27;</span>].features[<span class="string">&#x27;label&#x27;</span>].names</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>set_format() 设置喂给模型的数据，类型</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_format(<span class="built_in">type</span>=<span class="string">&#x27;torch&#x27;</span>,columns=[<span class="string">&#x27;idx&#x27;</span>,<span class="string">&#x27;labels&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h5 id="Local-and-remote-files"><a href="#Local-and-remote-files" class="headerlink" title="Local and remote files"></a>Local and remote files</h5><p>加载本地文件csv,text,jsonlines，json</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset</span><br><span class="line"></span><br><span class="line">dataset=load_dataset(<span class="string">&#x27;csv&#x27;</span>,data_files=<span class="string">&#x27;my_file.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line">data=load_dataset(<span class="string">&#x27;json&#x27;</span>,data_files=<span class="string">&#x27;my_file.json&#x27;</span>,field=<span class="string">&#x27;data&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>加载remote file,csv ,zipped.csv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base_url=<span class="string">&quot;https://huggingface.co/datasets/lhoestq/demo1/resolve/main/data/&quot;</span></span><br><span class="line"></span><br><span class="line">dataset=load_dataset(<span class="string">&#x27;csv&#x27;</span>.data_files=&#123;<span class="string">&#x27;train&#x27;</span>:base_url+<span class="string">&#x27;train.csv&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="load-dataset-builder"><a href="#load-dataset-builder" class="headerlink" title="load_dataset_builder"></a>load_dataset_builder</h4><p>在download之前，查看数据集的dataset card</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset_builder</span><br><span class="line">dataset_builder=load_dataset_builder(<span class="string">&#x27;imdb&#x27;</span>)</span><br><span class="line"><span class="comment">#查看cache地址</span></span><br><span class="line">dataset_builder.cache_dir</span><br><span class="line"><span class="comment">#查看info.features</span></span><br><span class="line">dataset_builder.info.features</span><br><span class="line"><span class="comment">#查看split</span></span><br><span class="line">dataset_builder.info.splits</span><br></pre></td></tr></table></figure>
+
+<h4 id="get-dataset-config-names"><a href="#get-dataset-config-names" class="headerlink" title="get_dataset_config_names"></a>get_dataset_config_names</h4><p>获取subset的名字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> get_dataset_config_names</span><br><span class="line"></span><br><span class="line">config=get_dataset_config_names(<span class="string">&#x27;glue&#x27;</span>)</span><br><span class="line">config</span><br></pre></td></tr></table></figure>
+
+<h4 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h4><ul>
+<li>dataset.info</li>
+<li>dataset.split &#x2F; description&#x2F; citation&#x2F;homepage</li>
+<li>dataset.shape</li>
+<li>dataset.num_columns</li>
+<li>dataset.num_rows</li>
+<li>dataset.column_names</li>
+<li>dataset.features</li>
+</ul>
+<h5 id="load-memory中数据"><a href="#load-memory中数据" class="headerlink" title="load memory中数据"></a>load memory中数据</h5><ul>
+<li>Dataset.from_dict()</li>
+<li>Dataset.from_pandas()</li>
+</ul>
+<h5 id="处理数据"><a href="#处理数据" class="headerlink" title="处理数据"></a>处理数据</h5><ul>
+<li>dataset.sort(‘label’)</li>
+<li>dataset.shuffle(seed&#x3D;42)</li>
+<li>dataset.select([0,10,20,…])</li>
+<li>dataset.filter(lambda example:example[‘sentence1’.startswith(‘A’)])</li>
+<li>dataset.train_test_split(test_size&#x3D;0.1) 默认shuffle，可以设置shuffle&#x3D;False</li>
+<li>dataset.shard(num_shards&#x3D;4,index&#x3D;0)  划分为4份数据，选择0份</li>
+</ul>
+<h5 id="数据columns处理"><a href="#数据columns处理" class="headerlink" title="数据columns处理"></a>数据columns处理</h5><ul>
+<li><p>dataset.rename_column(‘sentenc1’,’s1’)</p>
+</li>
+<li><p>dataset.remove_column(‘label’)</p>
+<p>修改column数据类型</p>
+</li>
+<li><p>dataset.cast(new_features) new_features&#x3D;data.features.copy()</p>
+</li>
+<li><p>dataset.cast_column(‘audio’,Audio(sampling_rate&#x3D;16000))</p>
+</li>
+<li><p>dataset.flatten() 展平嵌套结构数据</p>
+</li>
+</ul>
+<h5 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data=dataset.<span class="built_in">map</span>(<span class="keyword">lambda</span> example:&#123;<span class="string">&#x27;new&#x27;</span>:example[<span class="string">&#x27;s1&#x27;</span>]&#125;,remove_columns=[<span class="string">&#x27;s1&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h5 id="连接数据集"><a href="#连接数据集" class="headerlink" title="连接数据集"></a>连接数据集</h5><p>columns名相同则可以连接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> concatenate_datasets</span><br><span class="line"></span><br><span class="line">data=concatenate_datasets([bookcorpus,wiki])</span><br></pre></td></tr></table></figure>
+
+<h5 id="save"><a href="#save" class="headerlink" title="save"></a>save</h5><ul>
+<li>dataset.to_csv()</li>
+<li>dataset.to_json()</li>
+<li>dataset.to_pandas()</li>
+<li>dataset.to_dict()</li>
+</ul>
+<h4 id="list-metrics"><a href="#list-metrics" class="headerlink" title="list_metrics"></a>list_metrics</h4><p>查看全部的metrics</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> list_metrics</span><br><span class="line">metrics_list=list_metrics</span><br><span class="line">metrics_list</span><br><span class="line"></span><br><span class="line">[<span class="string">&#x27;accuracy&#x27;</span>, <span class="string">&#x27;bertscore&#x27;</span>, <span class="string">&#x27;bleu&#x27;</span>, <span class="string">&#x27;bleurt&#x27;</span>, <span class="string">&#x27;cer&#x27;</span>, <span class="string">&#x27;comet&#x27;</span>, <span class="string">&#x27;coval&#x27;</span>, <span class="string">&#x27;cuad&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, <span class="string">&#x27;gleu&#x27;</span>, <span class="string">&#x27;glue&#x27;</span>, <span class="string">&#x27;indic_glue&#x27;</span>, <span class="string">&#x27;matthews_correlation&#x27;</span>, <span class="string">&#x27;meteor&#x27;</span>, <span class="string">&#x27;pearsonr&#x27;</span>, <span class="string">&#x27;precision&#x27;</span>, <span class="string">&#x27;recall&#x27;</span>, <span class="string">&#x27;rouge&#x27;</span>, <span class="string">&#x27;sacrebleu&#x27;</span>, <span class="string">&#x27;sari&#x27;</span>, <span class="string">&#x27;seqeval&#x27;</span>, <span class="string">&#x27;spearmanr&#x27;</span>, <span class="string">&#x27;squad&#x27;</span>, <span class="string">&#x27;squad_v2&#x27;</span>, <span class="string">&#x27;super_glue&#x27;</span>, <span class="string">&#x27;wer&#x27;</span>, <span class="string">&#x27;wiki_split&#x27;</span>, <span class="string">&#x27;xnli&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="load-metric"><a href="#load-metric" class="headerlink" title="load_metric"></a>load_metric</h4><p>加载metric进行评测</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_metric</span><br><span class="line">metric = load_metric(<span class="string">&#x27;glue&#x27;</span>, <span class="string">&#x27;mrpc&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看输入输出</span></span><br><span class="line">metric.inputs_description</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用</span></span><br><span class="line">result=metric.compute(prediction,reference)</span><br><span class="line"></span><br><span class="line"><span class="comment">#batch</span></span><br><span class="line">metric.add_batch(prediction,reference)</span><br><span class="line">metric.compute()</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  <div class="tags">
+    <a href="/tags/api/">api</a>
+  </div>
+
+        
+  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+  <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- 返回顶部 -->
+<div id="toTop">
+	<a href="#">▲</a>
+	<a href="#footer">▼</a>
+</div></div></div>
+      <aside id="sidebar" class="alignright">
+        
+           
+
+        
+          <div class="widget tag">
+  <h3 class="title">欢迎打赏</h3>
+    <ul class="entry">
+      <img src="/img/default/get_money_1.jpg" alt="" style= "width: 100%">
+    </ul>
+</div>
+        
+          <div class="widget tag">
+  <h3 class="title">日历云</h3>
+  <div id="calendar"></div>
+</div>
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">友情链接</h3>
+      <ul class="entry">
+        
+          <li class='link'><a target="_blank" rel="noopener" href='https://github.com/zhangxs131'>我的github</a></li>
+        
+          <li class='link'><a target="_blank" rel="noopener" href='https://blog.csdn.net/be_humble'>我的CSDN</a></li>
+        
+      </ul>
+  </div>
+
+
+        
+          
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/api/">api</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+        
+          
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">公元 2022 年</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+        
+      </aside>
+      <div class="clearfix"></div>
+    </div>
+  <footer id="footer"><div class="footer-content inner">
+  <div class="alignleft">
+  
+    &copy; 2022 张晓松
+    
+  </div>
+  <div class="alignright">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme
+    <a target="_blank" rel="noopener" href="https://github.com/pengloo53/Hexo-theme-light_cn">light_cn</a>
+  </div>
+
+  <div>
+    Hosted by <a target="_blank" rel="noopener" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+  </div>
+  
+  <div class="clearfix"></div>
+</div></footer>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<!-- calendar widget -->
+
+  <script src="/js/calendar.js"></script>
+  <script src="/js/languages.js"></script>
+  <script type="text/javascript">
+    $(function() {
+    
+      $('#calendar').aCalendar('zh-CN',{single:, root:'calendar'});
+    
+    });
+  </script>
+
+
+<!-- 百度统计 -->
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?9acf0cedd48dc53be256ede5a98c2aaa";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<!-- fancybox -->
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+</body>
+</html>
+<a href="https://github.com/zhangxs131" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_white_ffffff.png" alt="Fork me on GitHub"></a>
